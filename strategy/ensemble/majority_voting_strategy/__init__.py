@@ -1,0 +1,1 @@
+from ._majority_voting_strategy import MajorityVotingStrategy

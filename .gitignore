@@ -1,0 +1,19 @@
+# Data
+data/
+
+# Pycache
+__pycache__/
+*.pyc
+
+# checkpoint
+.ipynb_checkpoints/
+
+# MacOS file system
+.DS_Store
+
+# IDE setting
+.vscode/
+
+# temp file
+temp*.py
+temp.md

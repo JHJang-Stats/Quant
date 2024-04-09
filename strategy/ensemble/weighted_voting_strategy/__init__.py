@@ -1,0 +1,1 @@
+from ._weighted_voting_strategy import WeightedVotingStrategy
