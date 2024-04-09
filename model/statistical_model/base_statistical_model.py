@@ -8,7 +8,14 @@ class StatisticalModel(ABC):
     """
     Abstract base class for traditional statistical time series forecasting models.
     """
-    def __init__(self, data: pd.DataFrame, fit_start_date=None, fit_end_date=None, predict_steps=1):
+
+    def __init__(
+        self,
+        data: pd.DataFrame,
+        fit_start_date=None,
+        fit_end_date=None,
+        predict_steps=1,
+    ):
         self.data = data
         self.fit_start_date = fit_start_date
         self.fit_end_date = fit_end_date
@@ -21,21 +28,23 @@ class StatisticalModel(ABC):
             if isinstance(date, str):
                 return pd.to_datetime(date)
             elif isinstance(date, (int, float, np.integer)):
-                return pd.to_datetime(date, unit='ms')
+                return pd.to_datetime(date, unit="ms")
             elif isinstance(date, datetime):
                 return date
             else:
-                raise ValueError("Date must be a string or a numeric timestamp (int, float).")
+                raise ValueError(
+                    "Date must be a string or a numeric timestamp (int, float)."
+                )
 
         if self.fit_start_date is None:
             self.fit_start_date = self.data.index[0]
         else:
             self.fit_start_date = process_date(self.fit_start_date)
-        
+
         if self.fit_end_date is None:
             self.fit_end_date = self.data.index[-1]
         else:
-            self.fit_end_date = process_date(self.fit_end_date)     
+            self.fit_end_date = process_date(self.fit_end_date)
 
     @abstractmethod
     def fit(self):

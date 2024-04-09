@@ -1,1 +1,0 @@
-from ._parabolic_SAR_strategy import ParabolicSARStrategy

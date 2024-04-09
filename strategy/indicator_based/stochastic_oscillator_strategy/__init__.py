@@ -1,0 +1,1 @@
+from ._stochastic_oscillator_strategy import StochasticOscillatorStrategy

@@ -1,1 +1,0 @@
-from ._ichimoku_cloud_strategy import IchimokuCloudStrategy
