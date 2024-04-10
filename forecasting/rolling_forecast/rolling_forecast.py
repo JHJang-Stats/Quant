@@ -63,7 +63,7 @@ class RollingForecast(Strategy):
             self.data = self.data.iloc[start_idx:,]
 
         if self.end_date is not None:
-            self.data = self.data[self.data.index <= self.end_date]
+            self.data = self.data[: self.end_date]
 
     def _optimize_indicator_based_strategy_hyperparameters(
         self,
@@ -75,7 +75,7 @@ class RollingForecast(Strategy):
 
         for params in product(*self.hyperparameter_grid.values()):
             hyperparams = dict(zip(self.hyperparameter_grid.keys(), params))
-            filtered_data = self.data[self.data.index <= train_end_date].copy()
+            filtered_data = self.data[: train_end_date].copy()
             strategy_instance = self.strategy_class(filtered_data, **hyperparams)
             backtest_instance = Backtest(
                 data=self.data,
@@ -104,7 +104,7 @@ class RollingForecast(Strategy):
 
         for params in product(*self.hyperparameter_grid.values()):
             hyperparams = dict(zip(self.hyperparameter_grid.keys(), params))
-            filtered_data = self.data[self.data.index <= val_end_date].copy()
+            filtered_data = self.data[: val_end_date].copy()
             strategy_instance = self.strategy_class(
                 filtered_data,
                 fit_start_date=train_start_date,
@@ -158,7 +158,7 @@ class RollingForecast(Strategy):
                 train_start_date,
                 train_end_date,
             )
-            filtered_data = self.data[self.data.index <= test_end_date].copy()
+            filtered_data = self.data[: test_end_date].copy()
             strategy_instance = self.strategy_class(filtered_data, **best_hyperparams)
 
         elif issubclass(self.strategy_class, StatisticalModelStrategy):
@@ -167,7 +167,7 @@ class RollingForecast(Strategy):
                     train_start_date, train_end_date, val_start_date, val_end_date
                 )
             )
-            filtered_data = self.data[self.data.index <= test_end_date].copy()
+            filtered_data = self.data[: test_end_date].copy()
             strategy_instance = self.strategy_class(
                 filtered_data,
                 fit_start_date=train_start_date,

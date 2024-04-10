@@ -21,11 +21,11 @@ class ARModel(StatisticalModel):
         self.coefficients = None
 
     def fit(self):
-        filtered_data = self.data
+        filtered_data = self.data.copy()
         if self.fit_start_date:
-            filtered_data = self.data[self.data.index >= self.fit_start_date]
+            filtered_data = self.data[self.fit_start_date:]
         if self.fit_end_date:
-            filtered_data = filtered_data[filtered_data.index <= self.fit_end_date]
+            filtered_data = filtered_data[: self.fit_end_date]
 
         Y = filtered_data["close"][self.lags :].values
         X = [
