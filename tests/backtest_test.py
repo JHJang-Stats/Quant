@@ -11,17 +11,20 @@ file_paths = [
     "data/crypto/csv/BTC_USDT_15m.csv",
 ]
 
+start_date = "2018-01-01"
+end_date = None
+
 
 @pytest.fixture(scope="module")
 def baseline_metrics():
     # Load the baseline data, run the strategy and backtest, then calculate metrics
     market_data = MarketData(file_paths[0])
-    strategy = VanillaStrategy(market_data.data, start_date="2018-01-01")
+    strategy = VanillaStrategy(market_data.data, start_date=start_date)
     backtest = Backtest(
         market_data.data,
         strategy,
-        start_date="2018-01-01",
-        end_date=None,
+        start_date=start_date,
+        end_date=end_date,
         fee=2e-4,
         enable_logging=True,
     )
@@ -37,12 +40,12 @@ def test_strategy_metrics(file_path, baseline_metrics):
 
     # Load the market data, run the strategy and backtest, then calculate metrics for the current file path
     market_data = MarketData(file_path)
-    strategy = VanillaStrategy(market_data.data, start_date="2018-01-01")
+    strategy = VanillaStrategy(market_data.data, start_date=start_date)
     backtest = Backtest(
         market_data.data,
         strategy,
-        start_date="2018-01-01",
-        end_date=None,
+        start_date=start_date,
+        end_date=end_date,
         fee=2e-4,
         enable_logging=True,
     )

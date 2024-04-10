@@ -45,7 +45,7 @@ class Backtest:
             self.end_date = process_date(self.end_date)
 
         if self.end_date is not None:
-            self.data = self.data[self.data.index <= self.end_date]
+            self.data = self.data[: self.end_date]
 
     def run(self):
         self.strategy.data = self.data
@@ -53,7 +53,7 @@ class Backtest:
         self.strategy.generate_signals()
         self.signals = self.strategy.signals
         if self.start_date is not None:
-            self.signals = self.signals[self.signals.index >= self.start_date]
+            self.signals = self.signals[self.start_date :]
 
     def simulate_trades(self, initial_capital=10000):
         self.portfolio = pd.DataFrame(index=self.signals.index)

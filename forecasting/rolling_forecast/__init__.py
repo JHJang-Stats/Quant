@@ -1,1 +1,1 @@
-from .base_rolling_forecast import RollingForecast
+from .rolling_forecast import RollingForecast

@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-from ...base_strategy import Strategy
+from ...indicator_based import IndicatorBasedStrategy
 
 
-class BollingerBandsStrategy(Strategy):
+class BollingerBandsStrategy(IndicatorBasedStrategy):
     def __init__(self, data, period=20, std_multiplier=2):
         super().__init__(data)
         self.period = period

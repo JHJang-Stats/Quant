@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-from ...base_strategy import Strategy
+from ...indicator_based import IndicatorBasedStrategy
 
 
-class RSIStrategy2(Strategy):
+class RSIStrategy2(IndicatorBasedStrategy):
     """
     Implements a modified Relative Strength Index (RSI) strategy based on configurable RSI ranges.
 

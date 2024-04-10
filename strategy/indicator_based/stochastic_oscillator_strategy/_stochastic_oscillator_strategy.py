@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-from ...base_strategy import Strategy
+from ...indicator_based import IndicatorBasedStrategy
 
 
-class StochasticOscillatorStrategy(Strategy):
+class StochasticOscillatorStrategy(IndicatorBasedStrategy):
     def __init__(self, data, period=14, oversold_threshold=20, overbought_threshold=80):
         super().__init__(data)
         self.period = period

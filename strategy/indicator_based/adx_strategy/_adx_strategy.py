@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 import talib
-from ...base_strategy import Strategy
+from ...indicator_based import IndicatorBasedStrategy
 
 
-class ADXStrategy(Strategy):
+class ADXStrategy(IndicatorBasedStrategy):
     def __init__(self, data, adx_period=14, threshold=25):
         super().__init__(data)
         self.adx_period = adx_period

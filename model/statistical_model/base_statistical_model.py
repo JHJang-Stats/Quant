@@ -14,12 +14,14 @@ class StatisticalModel(ABC):
         data: pd.DataFrame,
         fit_start_date=None,
         fit_end_date=None,
-        predict_steps=1,
+        predict_start_date=None,
+        predict_end_date=None,
     ):
         self.data = data
         self.fit_start_date = fit_start_date
         self.fit_end_date = fit_end_date
-        self.predict_steps = predict_steps
+        self.predict_start_date = predict_start_date
+        self.predict_end_date = predict_end_date
         self.is_fitted = False  # Tracks whether the model has been fitted
         self._process_fit_date()
 
@@ -45,6 +47,16 @@ class StatisticalModel(ABC):
             self.fit_end_date = self.data.index[-1]
         else:
             self.fit_end_date = process_date(self.fit_end_date)
+
+        if self.predict_start_date is None:
+            self.predict_start_date = self.fit_end_date
+        else:
+            self.predict_start_date = process_date(self.predict_start_date)
+
+        if self.predict_end_date is None:
+            self.predict_end_date = self.predict_start_date
+        else:
+            self.predict_end_date = process_date(self.predict_end_date)
 
     @abstractmethod
     def fit(self):

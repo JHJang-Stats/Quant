@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-from ...base_strategy import Strategy
+from ...indicator_based import IndicatorBasedStrategy
 
 
-class FibonacciRetracementStrategy(Strategy):
+class FibonacciRetracementStrategy(IndicatorBasedStrategy):
     def __init__(self, data, lookback_period=50, ma_period=20):
         super().__init__(data)
         self.lookback_period = lookback_period

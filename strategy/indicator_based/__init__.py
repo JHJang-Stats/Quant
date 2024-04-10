@@ -1,3 +1,4 @@
+from .base_indicator_based_strategy import IndicatorBasedStrategy
 from .adl_strategy import ADLStrategy
 from .adx_strategy import ADXStrategy
 from .bollinger_bands_strategy import BollingerBandsStrategy

@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-from ...base_strategy import Strategy
+from ...indicator_based import IndicatorBasedStrategy
 
 
-class MACDStrategy(Strategy):
+class MACDStrategy(IndicatorBasedStrategy):
     def __init__(
         self, data, short_ema_period=12, long_ema_period=26, signal_line_period=9
     ):

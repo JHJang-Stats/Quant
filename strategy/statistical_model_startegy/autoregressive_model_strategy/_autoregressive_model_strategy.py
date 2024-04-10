@@ -9,12 +9,21 @@ class ARModelStrategy(StatisticalModelStrategy):
         lags=1,
         fit_start_date=None,
         fit_end_date=None,
-        predict_steps=1,
+        predict_start_date=None,
+        predict_end_date=None,
         thresholds=0.004,
     ):
         super().__init__(data)
-        self.model = ARModel(data, lags, fit_start_date, fit_end_date, predict_steps)
-        self.predict_steps = predict_steps
+        self.model = ARModel(
+            data,
+            lags,
+            fit_start_date,
+            fit_end_date,
+            predict_start_date,
+            predict_end_date,
+        )
+        self.predict_start_date = predict_start_date
+        self.predict_end_date = predict_end_date
         self.thresholds = thresholds
 
     def fit_model(self):

@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-from ...base_strategy import Strategy
+from ...indicator_based import IndicatorBasedStrategy
 
 
-class ADLStrategy(Strategy):
+class ADLStrategy(IndicatorBasedStrategy):
     def __init__(self, data):
         super().__init__(data)
 

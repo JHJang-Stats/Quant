@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-from ...base_strategy import Strategy
+from ...indicator_based import IndicatorBasedStrategy
 
 
-class ParabolicSARStrategy(Strategy):
+class ParabolicSARStrategy(IndicatorBasedStrategy):
     def __init__(self, data, initial_af=0.02, step_af=0.02, max_af=0.2):
         super().__init__(data)
         self.initial_af = initial_af  # Initial acceleration factor

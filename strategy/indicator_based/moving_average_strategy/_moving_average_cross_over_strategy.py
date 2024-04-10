@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-from ...base_strategy import Strategy
+from ...indicator_based import IndicatorBasedStrategy
 
 
-class MovingAverageCrossoverStrategy(Strategy):
+class MovingAverageCrossoverStrategy(IndicatorBasedStrategy):
     """
     Implements a simple moving average (SMA) crossover strategy.
     """

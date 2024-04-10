@@ -6,9 +6,17 @@ from ...statistical_model import StatisticalModel
 
 class ARModel(StatisticalModel):
     def __init__(
-        self, data, lags=1, fit_start_date=None, fit_end_date=None, predict_steps=1
+        self,
+        data,
+        lags=1,
+        fit_start_date=None,
+        fit_end_date=None,
+        predict_start_date=None,
+        predict_end_date=None,
     ):
-        super().__init__(data, fit_start_date, fit_end_date, predict_steps)
+        super().__init__(
+            data, fit_start_date, fit_end_date, predict_start_date, predict_end_date
+        )
         self.lags = lags
         self.coefficients = None
 
@@ -51,7 +59,8 @@ class ARModel(StatisticalModel):
         X.index = self.data.index[self.lags :]
         Y_hat = X @ self.coefficients
 
-        Y_hat = Y_hat[Y_hat.index >= self.fit_end_date].iloc[: self.predict_steps]
+        Y_hat = Y_hat.loc[self.predict_start_date : self.predict_end_date]
+
         Y_hat = Y_hat.to_frame(name="Y_hat")
         merged_df = pd.merge(
             Y_hat, self.data["close"], left_index=True, right_index=True, how="left"
