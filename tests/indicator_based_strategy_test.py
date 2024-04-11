@@ -63,7 +63,10 @@ def test_strategies_inheritance(strategy_classes):
 def test_strategies_run_without_errors(strategies, market_data):
     for strategy in strategies:
         backtest = Backtest(
-            market_data.data, strategy, start_date=start_date, end_date=end_date
+            market_data.data,
+            strategy,
+            start_date=start_date,
+            end_date=end_date,
         )
 
         backtest.run()

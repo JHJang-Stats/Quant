@@ -21,6 +21,7 @@ class RollingForecast(Strategy):
         evaluation_window=7,
         hyperparameter_grid=None,
         val_ratio=0,
+        fit_duration=None,
     ):
         super().__init__(data)
         self.strategy_class = strategy_class
@@ -32,6 +33,7 @@ class RollingForecast(Strategy):
         self.best_hyperparams_history = []
         self.portfolio = None
         self.val_ratio = val_ratio
+        self.fit_duration = fit_duration
 
         if issubclass(self.strategy_class, IndicatorBasedStrategy):
             assert self.val_ratio == 0
@@ -75,7 +77,7 @@ class RollingForecast(Strategy):
 
         for params in product(*self.hyperparameter_grid.values()):
             hyperparams = dict(zip(self.hyperparameter_grid.keys(), params))
-            filtered_data = self.data[: train_end_date].copy()
+            filtered_data = self.data[:train_end_date].copy()
             strategy_instance = self.strategy_class(filtered_data, **hyperparams)
             backtest_instance = Backtest(
                 data=self.data,
@@ -104,13 +106,12 @@ class RollingForecast(Strategy):
 
         for params in product(*self.hyperparameter_grid.values()):
             hyperparams = dict(zip(self.hyperparameter_grid.keys(), params))
-            filtered_data = self.data[: val_end_date].copy()
+            filtered_data = self.data[:val_end_date].copy()
+
             strategy_instance = self.strategy_class(
                 filtered_data,
-                fit_start_date=train_start_date,
-                fit_end_date=train_end_date,
-                predict_start_date=val_start_date,
-                predict_end_date=val_end_date,
+                fit_duration=self.fit_duration,
+                predict_period=(val_start_date, val_end_date),
                 **hyperparams
             )
             backtest_instance = Backtest(
@@ -158,7 +159,7 @@ class RollingForecast(Strategy):
                 train_start_date,
                 train_end_date,
             )
-            filtered_data = self.data[: test_end_date].copy()
+            filtered_data = self.data[:test_end_date].copy()
             strategy_instance = self.strategy_class(filtered_data, **best_hyperparams)
 
         elif issubclass(self.strategy_class, StatisticalModelStrategy):
@@ -167,13 +168,11 @@ class RollingForecast(Strategy):
                     train_start_date, train_end_date, val_start_date, val_end_date
                 )
             )
-            filtered_data = self.data[: test_end_date].copy()
+            filtered_data = self.data[:test_end_date].copy()
             strategy_instance = self.strategy_class(
                 filtered_data,
-                fit_start_date=train_start_date,
-                fit_end_date=val_end_date,
-                predict_start_date=test_start_date,
-                predict_end_date=test_end_date,
+                fit_duration=self.fit_duration,
+                predict_period=(test_start_date, test_end_date),
                 **best_hyperparams
             )
 

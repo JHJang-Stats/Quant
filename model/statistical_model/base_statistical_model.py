@@ -12,20 +12,16 @@ class StatisticalModel(ABC):
     def __init__(
         self,
         data: pd.DataFrame,
-        fit_start_date=None,
-        fit_end_date=None,
-        predict_start_date=None,
-        predict_end_date=None,
+        fit_period=(None, None),
+        predict_period=(None, None),
     ):
         self.data = data
-        self.fit_start_date = fit_start_date
-        self.fit_end_date = fit_end_date
-        self.predict_start_date = predict_start_date
-        self.predict_end_date = predict_end_date
+        self.fit_period = fit_period
+        self.predict_period = predict_period
         self.is_fitted = False  # Tracks whether the model has been fitted
-        self._process_fit_date()
+        self._process_fit_and_predict_period()
 
-    def _process_fit_date(self):
+    def _process_fit_and_predict_period(self):
         def process_date(date):
             if isinstance(date, str):
                 return pd.to_datetime(date)
@@ -38,25 +34,35 @@ class StatisticalModel(ABC):
                     "Date must be a string or a numeric timestamp (int, float)."
                 )
 
-        if self.fit_start_date is None:
-            self.fit_start_date = self.data.index[0]
-        else:
-            self.fit_start_date = process_date(self.fit_start_date)
+        self.fit_period = (
+            process_date(self.fit_period[0])
+            if self.fit_period[0] is not None
+            else self.data.index[0],
+            process_date(self.fit_period[1])
+            if self.fit_period[1] is not None
+            else self.data.index[-1],
+        )
 
-        if self.fit_end_date is None:
-            self.fit_end_date = self.data.index[-1]
-        else:
-            self.fit_end_date = process_date(self.fit_end_date)
+        predict_start = (
+            process_date(self.predict_period[0])
+            if self.predict_period[0] is not None
+            else self.fit_period[1]
+        )
+        predict_end = (
+            process_date(self.predict_period[1])
+            if self.predict_period[1] is not None
+            else predict_start
+        )
+        self.predict_period = (predict_start, predict_end)
 
-        if self.predict_start_date is None:
-            self.predict_start_date = self.fit_end_date
-        else:
-            self.predict_start_date = process_date(self.predict_start_date)
-
-        if self.predict_end_date is None:
-            self.predict_end_date = self.predict_start_date
-        else:
-            self.predict_end_date = process_date(self.predict_end_date)
+    def _filter_data_for_fit_period(self):
+        fit_start_date, fit_end_date = self.fit_period
+        filtered_data = self.data.copy()
+        if fit_start_date:
+            filtered_data = filtered_data[fit_start_date:]
+        if fit_end_date:
+            filtered_data = filtered_data[:fit_end_date]
+        return filtered_data
 
     @abstractmethod
     def fit(self):

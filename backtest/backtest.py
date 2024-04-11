@@ -49,7 +49,6 @@ class Backtest:
 
     def run(self):
         self.strategy.data = self.data
-        self.strategy.initialize_signals()
         self.strategy.generate_signals()
         self.signals = self.strategy.signals
         if self.start_date is not None:
