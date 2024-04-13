@@ -1,6 +1,6 @@
 import pandas as pd
-from ...statistical_model import StatisticalModel
-from statsmodels.tsa.arima.model import ARIMA
+from .. import StatisticalModel
+from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 import warnings
 from statsmodels.tools.sm_exceptions import ValueWarning
@@ -8,16 +8,20 @@ warnings.filterwarnings("ignore", category=ValueWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-class ARIMAModel(StatisticalModel):
+
+
+class SARIMAModel(StatisticalModel):
     def __init__(
         self,
         data,
         order=(1, 0, 0),  # order (p,d,q) for ARIMA modoel
+        seasonal_order=(0, 0, 0, 0),  # seasonal order (P, D, Q, s) for SARIMA model
         fit_period=(None, None),
         predict_period=(None, None),
     ):
         super().__init__(data, fit_period, predict_period)
         self.order = order
+        self.seasonal_order = seasonal_order
 
     def fit(self):
         filtered_data = self._filter_data_for_fit_period()
@@ -30,12 +34,14 @@ class ARIMAModel(StatisticalModel):
         # Please add the missing data later.
         if inferred_freq:
             filtered_data.index = filtered_data.index.to_period(inferred_freq)
-        self.model = ARIMA(
+        self.model = SARIMAX(
             filtered_data["close"],
+            exog=None,
             order=self.order,
+            seasonal_order=self.seasonal_order,
             # missing="drop",
         )
-        self.fitted_model = self.model.fit()
+        self.fitted_model = self.model.fit(disp=0)
         self.is_fitted = True
         del filtered_data
 

@@ -162,6 +162,7 @@ class Backtest:
 
         # Ensure the index is a DateTimeIndex to calculate time differences
         if not isinstance(self.portfolio.index, pd.DatetimeIndex):
+            self.portfolio.index = self.portfolio.index.to_timestamp()
             self.portfolio.index = pd.to_datetime(self.portfolio.index)
 
         self.portfolio["portfolio_returns"] = self.portfolio["total"].pct_change()

@@ -38,6 +38,9 @@ def test_predictions_for_specific_period(model_class, market_data):
         predictions.index
         == market_data.data[predict_period[0] : predict_period[1]].index
     ).all()
+    assert (
+        not predictions.isnull().any().any()
+    ), "There are NaN values in the dataframe"
 
 
 # Test 2: Predictions made up to a specific end date without a defined start date
@@ -64,9 +67,6 @@ def test_predictions_up_to_end_date(model_class, market_data):
 
 
 # Test 3: Predictions made without a defined period
-@pytest.mark.xfail(
-    reason="Test case logic is unclear. Needs clarification on expected outcome."
-)
 def test_predictions_without_defined_period(model_class, market_data):
     fit_start_date = pd.to_datetime("2019-09-01")
     fit_end_date = pd.to_datetime("2019-12-31")
@@ -85,3 +85,6 @@ def test_predictions_without_defined_period(model_class, market_data):
 
     # This assertion is marked to fail as it compares incompatible types. Needs clarification.
     assert predictions.index == fit_end_date
+    assert (
+        not predictions.isnull().any().any()
+    ), "There are NaN values in the dataframe"
