@@ -4,9 +4,11 @@ from statsmodels.tsa.arima.model import ARIMA
 
 import warnings
 from statsmodels.tools.sm_exceptions import ValueWarning
+
 warnings.filterwarnings("ignore", category=ValueWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
+
 
 class ARIMAModel(StatisticalModel):
     def __init__(

@@ -6,7 +6,10 @@ from strategy.statistical_model_startegy.autoregressive_model_strategy import (
     ARModelStrategy,
 )
 from strategy.statistical_model_startegy.arima_model_strategy import ARIMAModelStrategy
-from strategy.statistical_model_startegy.sarima_model_strategy import SARIMAModelStrategy
+from strategy.statistical_model_startegy.sarima_model_strategy import (
+    SARIMAModelStrategy,
+)
+from strategy.statistical_model_startegy.vector_autoregression_model_strategy import VARModelStrategy
 from backtest import Backtest
 from forecasting.rolling_forecast import RollingForecast
 
@@ -31,6 +34,7 @@ def strategy_classes():
         ARModelStrategy,
         ARIMAModelStrategy,
         SARIMAModelStrategy,
+        VARModelStrategy,
     ]
 
 
@@ -77,6 +81,7 @@ def strategies(market_data):
         ARModelStrategy,
         ARIMAModelStrategy,
         SARIMAModelStrategy,
+        VARModelStrategy,
     ]
     return [
         RollingForecast(

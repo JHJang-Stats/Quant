@@ -2,6 +2,9 @@ import pytest
 import pandas as pd
 from model.statistical_model.arima_model import ARIMAModel
 from model.statistical_model.autoregressive_model import ARModel
+from model.statistical_model.sarima_model import SARIMAModel
+from model.statistical_model.vector_autoregression_model import VARModel
+
 from dataset_constructor import MarketData
 
 
@@ -11,7 +14,14 @@ def market_data():
     return MarketData(file_path)
 
 
-@pytest.fixture(params=[ARModel, ARIMAModel])
+@pytest.fixture(
+    params=[
+        ARModel,
+        ARIMAModel,
+        SARIMAModel,
+        VARModel,
+    ]
+)
 def model_class(request):
     return request.param
 
@@ -38,9 +48,7 @@ def test_predictions_for_specific_period(model_class, market_data):
         predictions.index
         == market_data.data[predict_period[0] : predict_period[1]].index
     ).all()
-    assert (
-        not predictions.isnull().any().any()
-    ), "There are NaN values in the dataframe"
+    assert not predictions.isnull().any().any(), "There are NaN values in the dataframe"
 
 
 # Test 2: Predictions made up to a specific end date without a defined start date
@@ -85,6 +93,4 @@ def test_predictions_without_defined_period(model_class, market_data):
 
     # This assertion is marked to fail as it compares incompatible types. Needs clarification.
     assert predictions.index == fit_end_date
-    assert (
-        not predictions.isnull().any().any()
-    ), "There are NaN values in the dataframe"
+    assert not predictions.isnull().any().any(), "There are NaN values in the dataframe"

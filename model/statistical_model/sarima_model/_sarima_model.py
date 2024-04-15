@@ -4,10 +4,10 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 import warnings
 from statsmodels.tools.sm_exceptions import ValueWarning
+
 warnings.filterwarnings("ignore", category=ValueWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
-
 
 
 class SARIMAModel(StatisticalModel):

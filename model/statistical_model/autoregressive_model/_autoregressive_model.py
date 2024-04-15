@@ -29,18 +29,19 @@ class ARModel(StatisticalModel):
         self.coefficients = inv(X.T @ X) @ X.T @ Y
         self.is_fitted = True
 
-    def predict(self) -> pd.DataFrame:
+    def predict(self):
         """
         DataFrame
         index: timestamp
         column1: Y_hat^(t+1)
         column2: close
         """
-        predict_start_date, predict_end_date = self.predict_period
         if not self.is_fitted:
             raise Exception(
                 "Model has not been fitted. Please call 'fit' before 'predict'."
             )
+
+        predict_start_date, predict_end_date = self.predict_period
 
         X = [
             self.data["close"].shift(i)[self.lags :].values for i in range(0, self.lags)
