@@ -57,22 +57,10 @@ class ARIMAModel(StatisticalModel):
         predictions = self.fitted_model.forecast(steps=steps).to_frame(
             name="Y_hat^(t+1)"
         )
-        try:
-            predictions.index = predictions.index.to_timestamp()
-            merged_df = self.data.join(predictions, how="outer")[
-                ["Y_hat^(t+1)", "close"]
-            ]
-            shifted_predicted_mean = merged_df["Y_hat^(t+1)"].shift(-1)
-            merged_df["Y_hat^(t+1)"] = shifted_predicted_mean
-        except AttributeError:
-            # TODO: When the index interval is not constant, the following error occurs.
-            # ValueWarning: No supported index is available. Prediction results will be given with an integer index beginning at start.
-            # To get rid of this warning, you need to collect data without missing data.
-            # Please add the missing data later.
-            if isinstance(predictions.index, pd.RangeIndex):
-                predictions.index = self.data[self.predict_period[0] :].index[:steps]
-                merged_df = self.data.join(predictions)[["Y_hat^(t+1)", "close"]]
-
+        predictions.index = self.data[
+            self.predict_period[0] : self.predict_period[1]
+        ].index
+        merged_df = self.data.join(predictions)[["Y_hat^(t+1)", "close"]]
         merged_df = merged_df[self.predict_period[0] : self.predict_period[1]]
         assert (
             not merged_df.isnull().any().any()

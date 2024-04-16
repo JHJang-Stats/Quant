@@ -55,6 +55,11 @@ class Backtest:
             self.signals = self.signals[self.start_date :]
 
     def simulate_trades(self, initial_capital=10000):
+        """
+        This is the code to directly get the value of the portfolio over time.
+        Parallelization is not possible with the current code.
+        TODO: needs optimization, using log ['price'] seems to help.
+        """
         self.portfolio = pd.DataFrame(index=self.signals.index)
         self.portfolio["signal"] = self.signals["signal"]
         self.portfolio["change_signal"] = self.portfolio["signal"].diff()

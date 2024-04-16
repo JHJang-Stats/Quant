@@ -18,7 +18,7 @@ class RollingForecast(Strategy):
         start_date=None,
         end_date=None,
         rolling_window=365,
-        evaluation_window=7,
+        evaluation_window=30,
         hyperparameter_grid=None,
         val_ratio=0,
         fit_duration=None,

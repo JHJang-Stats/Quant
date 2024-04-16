@@ -2,6 +2,8 @@ import pytest
 import pandas as pd
 from model.statistical_model.arima_model import ARIMAModel
 from model.statistical_model.autoregressive_model import ARModel
+from model.statistical_model.ets_model import ETSModel
+from model.statistical_model.prophet_model import ProphetModel
 from model.statistical_model.sarima_model import SARIMAModel
 from model.statistical_model.vector_autoregression_model import VARModel
 
@@ -10,14 +12,16 @@ from dataset_constructor import MarketData
 
 @pytest.fixture(scope="module")
 def market_data():
-    file_path = "data/crypto/csv/BTC_USDT_4h.csv"
+    file_path = "data/crypto/csv/BTC_USDT_1d.csv"
     return MarketData(file_path)
 
 
 @pytest.fixture(
     params=[
-        ARModel,
         ARIMAModel,
+        ARModel,
+        ETSModel,
+        ProphetModel,
         SARIMAModel,
         VARModel,
     ]

@@ -2,19 +2,25 @@ import pytest
 import pandas as pd
 from dataset_constructor import MarketData
 from strategy.statistical_model_startegy import StatisticalModelStrategy
+from strategy.statistical_model_startegy.arima_model_strategy import ARIMAModelStrategy
 from strategy.statistical_model_startegy.autoregressive_model_strategy import (
     ARModelStrategy,
 )
-from strategy.statistical_model_startegy.arima_model_strategy import ARIMAModelStrategy
+from strategy.statistical_model_startegy.ets_model_strategy import ETSModelStrategy
+from strategy.statistical_model_startegy.prophet_model_strategy import (
+    ProphetModelStrategy,
+)
 from strategy.statistical_model_startegy.sarima_model_strategy import (
     SARIMAModelStrategy,
 )
-from strategy.statistical_model_startegy.vector_autoregression_model_strategy import VARModelStrategy
+from strategy.statistical_model_startegy.vector_autoregression_model_strategy import (
+    VARModelStrategy,
+)
 from backtest import Backtest
 from forecasting.rolling_forecast import RollingForecast
 
 
-file_path = "data/crypto/csv/BTC_USDT_4h.csv"
+file_path = "data/crypto/csv/BTC_USDT_1d.csv"
 fit_start_date = pd.to_datetime("2018-01-01")
 fit_end_date = pd.to_datetime("2019-01-01")
 fit_duration = fit_end_date - fit_start_date
@@ -31,8 +37,10 @@ def market_data():
 @pytest.fixture
 def strategy_classes():
     return [
-        ARModelStrategy,
         ARIMAModelStrategy,
+        ARModelStrategy,
+        ETSModelStrategy,
+        ProphetModelStrategy,
         SARIMAModelStrategy,
         VARModelStrategy,
     ]
@@ -78,8 +86,10 @@ def test_strategies_run_without_errors(strategies, market_data):
 @pytest.fixture
 def strategies(market_data):
     strategies_class = [
-        ARModelStrategy,
         ARIMAModelStrategy,
+        ARModelStrategy,
+        ETSModelStrategy,
+        ProphetModelStrategy,
         SARIMAModelStrategy,
         VARModelStrategy,
     ]

@@ -4,7 +4,7 @@ import numpy as np
 from datetime import datetime
 
 
-class StatisticalModel(ABC):
+class DeepLearningModel(ABC):
     """
     Abstract base class for traditional statistical time series forecasting models.
     """
