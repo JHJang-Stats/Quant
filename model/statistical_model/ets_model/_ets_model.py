@@ -79,7 +79,7 @@ class ETSModel(StatisticalModel):
         self.is_fitted = True
         del filtered_data
 
-    def predict(self):
+    def predict(self) -> pd.DataFrame:
         """
         DataFrame
         index: timestamp

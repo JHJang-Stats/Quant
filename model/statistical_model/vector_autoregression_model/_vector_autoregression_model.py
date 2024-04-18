@@ -55,7 +55,7 @@ class VARModel(StatisticalModel):
         self.is_fitted = True
         self.filtered_data = filtered_data
 
-    def predict(self):
+    def predict(self) -> pd.DataFrame:
         """
         DataFrame
         index: timestamp

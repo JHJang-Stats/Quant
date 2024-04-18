@@ -56,7 +56,6 @@ class Backtest:
 
     def simulate_trades(self, initial_capital=10000):
         """
-        This is the code to directly get the value of the portfolio over time.
         Parallelization is not possible with the current code.
         TODO: needs optimization, using log ['price'] seems to help.
         """

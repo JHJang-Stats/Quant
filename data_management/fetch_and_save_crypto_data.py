@@ -12,7 +12,7 @@ base_dir = "data/stock/csv"
 if not os.path.exists(base_dir):
     os.makedirs(base_dir)
 
-timeframes = ["5m", "15m", "1h", "4h", "1d", "1w"]
+timeframes = ["1h", "4h", "1d"]
 concurrency_limit = 20  # Adjust based on your needs and rate limits
 
 

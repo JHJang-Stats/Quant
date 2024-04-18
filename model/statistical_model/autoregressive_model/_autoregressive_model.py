@@ -29,7 +29,7 @@ class ARModel(StatisticalModel):
         self.coefficients = inv(X.T @ X) @ X.T @ Y
         self.is_fitted = True
 
-    def predict(self):
+    def predict(self) -> pd.DataFrame:
         """
         DataFrame
         index: timestamp

@@ -75,9 +75,9 @@ class StatisticalModel(ABC):
         raise NotImplementedError("Subclasses must implement this method")
 
     @abstractmethod
-    def predict(self) -> pd.Series:
+    def predict(self) -> pd.DataFrame:
         raise NotImplementedError("Subclasses must implement this method")
 
-    def fit_predict(self) -> pd.Series:
+    def fit_predict(self) -> pd.DataFrame:
         self.fit()
         return self.predict()

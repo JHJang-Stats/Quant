@@ -72,6 +72,10 @@ class RollingForecast(Strategy):
         train_start_date,
         train_end_date,
     ):
+        """
+        TODO: It seems quite inefficient to repeat the same operation by assigning `Backtest` each time.
+        Should consider efficiency in future refactorings.
+        """
         best_hyperparams = None
         best_performance = float("-inf")
 
