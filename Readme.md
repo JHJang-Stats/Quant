@@ -1,7 +1,7 @@
 # Project Title: Quant
 
 ## Summary
-This project implements a scalable backtesting system based on simple trading strategies. It primarily handles cryptocurrency data and includes features that integrate and test various trading strategies and models.
+This project implements a scalable backtesting system based on simple trading strategies. It handles cryptocurrency data and includes features that integrate and test various trading strategies and models. Note that this is not an alpha strategy!
 
 ## Module Description
 ### `data_management`
